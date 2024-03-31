@@ -1,0 +1,106 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+* {
+	margin: 0;
+	padding: 0;
+}
+i::before {
+	font-weight: inherit !important;
+}
+input {
+	font-family: inherit;
+	font-size: inherit;
+}
+header {
+	height: 10vh;
+	display: grid;
+	place-content: center;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+/* RESULTS */
+.result-name {
+	font-weight: bold;
+}
+.result-description {
+	font-style: italic;
+}
+.search-input {
+	padding: .2em .5em;
+	border: 1px solid grey;
+	border-radius: 7px;
+}
+.search-header {
+	margin-top: 2rem;
+	margin-bottom: 1rem;
+	display: grid;
+	grid-template-columns: 1fr 2em;
+	gap: .5em;
+}
+.search-button {
+	color: white;
+	background-color: black;
+	border: none;
+	border-radius: 7px;
+	cursor: pointer;
+	height: 100%;
+	aspect-ratio: 1;
+}
+.search-body {
+	width: clamp(
+		0px,
+		40rem,
+		calc(100vw - 2rem)
+	);
+	margin-inline: auto;
+}
+.result-list {
+	display: grid;
+	gap: .5em;
+	list-style-type: none;
+}
+/* TIMELINE */
+.scroll-view {
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+}
+img {
+	display: block;
+	max-width: 100%;
+}
+body {
+	font-family: "General Sans", sans-serif;
+	overflow: hidden;
+}
+.person-image {
+	aspect-ratio: 1;
+	object-fit: cover;
+}
+.person-card {
+	padding: 1rem;
+	width: 20rem;
+	display: grid;
+	background-color: white;
+	border-radius: 10px;
+	height: min-content;
+}
+.person-header {
+	text-decoration: none;
+	color: inherit;
+	display: flex;
+	align-items: center;
+	gap: .5em;
+}
+.lifetime {
+	grid-column: span 2;
+}
+.person-name {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+.person-description {
+	font-style: italic;
+}
