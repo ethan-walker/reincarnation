@@ -69,5 +69,5 @@ function nameFunction(e) {
 	death = getComputedStyle(entry)
 		.getPropertyValue('--death');
 	localStorage.setItem("date", death);
-	window.location.href = "/timeline.html"
+	window.location.href = `${window.location.href}/timeline.html`
 }
