@@ -5,6 +5,11 @@ html {
 * {
 	margin: 0;
 	padding: 0;
+	box-sizing: border-box;
+}
+body {
+	font-family: "General Sans", sans-serif;
+	overflow: hidden;
 }
 i::before {
 	font-weight: inherit !important;
@@ -28,9 +33,9 @@ header {
 	font-style: italic;
 }
 .search-input {
-	padding: .2em .5em;
+	padding: .4em .5em;
 	border: 1px solid grey;
-	border-radius: 7px;
+	border-radius: 50vh;
 }
 .search-header {
 	margin-top: 2rem;
@@ -43,7 +48,7 @@ header {
 	color: white;
 	background-color: black;
 	border: none;
-	border-radius: 7px;
+	border-radius: 50vh;
 	cursor: pointer;
 	height: 100%;
 	aspect-ratio: 1;
@@ -61,46 +66,134 @@ header {
 	gap: .5em;
 	list-style-type: none;
 }
+.result {
+	display: grid;
+	gap: .5em;
+	grid-template-columns: 3rem 1fr;
+	cursor: pointer;
+	user-select: none;
+	border-radius: 7px;
+}
+.result:hover {
+	border: 1px solid #91a8c1;
+}
+.result-image {
+	border-radius: 50vh;
+	aspect-ratio: 1;
+	object-fit: cover;
+}
 /* TIMELINE */
+img {
+	display: block;
+	max-width: 100%;
+	object-fit: cover;
+}
+.person-card {
+	padding: .5rem;
+	border-radius: 10px;
+	background-color: white;
+	display: grid;
+	grid-template-columns: 5rem auto;
+	gap: 1rem;
+	width: 20rem;
+	border: 1px solid #91a8c1;
+	background: linear-gradient(0deg, #f7feff, #fff 70%);
+}
+.person-card:hover {
+	border-color: #747a81;
+	background: linear-gradient(0deg, #ecf2f4, #fff 90%);
+}
+.person-image {
+	aspect-ratio: 1;
+	border-radius: 5px;
+	height: 5rem;
+}
+.person-details {
+	display: grid;
+	align-content: center;
+}
+.person-description {
+	font-style: italic;
+	font-size: .9em;
+}
+.person-name {
+	font-weight: bold;
+}
+#container {
+ cursor: grab;
+}
+
+/* ##### */
 .scroll-view {
 	width: 100vw;
 	height: 100vh;
 	overflow: hidden;
 }
-img {
-	display: block;
-	max-width: 100%;
+.scroll-tree {
+	padding: 25%;
+	width: fit-content;
+	transform: scale(1);
+	
+	--card-height: 6rem;
+	--card-width: 20rem;
+	--tree-gap-x: 3rem;
+	--tree-gap-y: 3rem;
+	--connector-gap: 1rem;
+	--connector-radius: 10px;
+	--connector-colour: #91a8c1;
 }
-body {
-	font-family: "General Sans", sans-serif;
-	overflow: hidden;
-}
-.person-image {
-	aspect-ratio: 1;
-	object-fit: cover;
-}
-.person-card {
-	padding: 1rem;
-	width: 20rem;
+.tree-list {
+	list-style: none;
 	display: grid;
-	background-color: white;
-	border-radius: 10px;
-	height: min-content;
+	gap: var(--tree-gap-y);
 }
-.person-header {
-	text-decoration: none;
-	color: inherit;
+.tree-item {
 	display: flex;
-	align-items: center;
-	gap: .5em;
+	align-items: flex-start;
+	gap: var(--tree-gap-x);
 }
-.lifetime {
-	grid-column: span 2;
+.tree-item:has(.person-card:hover) > .person-card {
+	outline: 1px solid #91a8c1;
 }
-.person-name {
-	font-size: 1.2em;
-	font-weight: bold;
+.tree-list, .tree-item {
+	position: relative;
 }
-.person-description {
-	font-style: italic;
+/* curved horizontal */
+.tree-item:not(:first-of-type)::before {
+	content: "";
+	position: absolute;
+	
+	top: 0;
+	left: calc(-1 * var(--connector-gap));
+	
+	width: var(--connector-gap);
+	height: calc(var(--card-height) / 2);
+
+	border-bottom-left-radius: var(--connector-radius);
+	border-left: 1px solid var(--connector-colour);
+	border-bottom: 1px solid var(--connector-colour);
+}
+/* straight vertical */
+.tree-item:not(:last-of-type)::after {
+	content: "";
+	position: absolute;
+	
+	top: calc(var(--card-height) / 2);
+	left: calc(-1 * var(--connector-gap));
+	
+	height: 100%;
+	
+	border-right: 1px solid var(--connector-colour);
+}
+/* straight horizontal */
+.tree-item:first-of-type::before {
+	content: "";
+	position: absolute;
+	
+	top: calc(var(--card-height) / 2);
+	left: calc(-1 * var(--tree-gap-x));
+	
+	width: var(--tree-gap-x);
+
+	border-bottom: 1px solid var(--connector-colour);
 }

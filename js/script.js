@@ -53,6 +53,6 @@ function scrollDrag(container) {
 		document.onmousemove = null;
 		document.onmouseup = null;
 		container.style.removeProperty('user-select');
-		container.style.cursor = "default";
+		container.style.cursor = "grab";
 	}
 }
