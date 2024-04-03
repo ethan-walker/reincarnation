@@ -45,7 +45,7 @@ function getPeople(date, elem) {
 				
 				var img = document.createElement("img");
 				img.classList.add("person-image")
-				img.src = (person.image || {"value" : "/assets/blank.svg"}).value;
+				img.src = (person.image || {"value" : "./assets/blank.svg"}).value;
 				card.appendChild(img);
 
 				var details = document.createElement("card");

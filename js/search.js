@@ -39,7 +39,7 @@ function searchName() {
 
 			let img = document.createElement("img");
 			img.classList.add("result-image")
-			img.src = (person.image || {"value" : "/assets/blank.svg"}).value;
+			img.src = (person.image || {"value" : "./assets/blank.svg"}).value;
 			entry.appendChild(img);
 
 			let content = document.createElement("div");
@@ -69,5 +69,5 @@ function nameFunction(e) {
 	death = getComputedStyle(entry)
 		.getPropertyValue('--death');
 	localStorage.setItem("date", death);
-	window.location.href = `${window.location.href}/timeline.html`
+	window.location.href = "./timeline.html"
 }
