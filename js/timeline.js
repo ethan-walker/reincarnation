@@ -29,7 +29,7 @@ function getPeople(date, elem) {
 			}
 		}
 		GROUP BY ?person ?personLabel ?personDescription ?dod ?sex ?info ?dob ?image ?yob ?yod
-		LIMIT 5
+		LIMIT 4
 	`
 	queryWikidata(query)
 		.then(data => data.results)
