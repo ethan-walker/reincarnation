@@ -141,6 +141,7 @@ img {
 	--connector-gap: 1rem;
 	--connector-radius: 10px;
 	--connector-colour: #91a8c1;
+	--connector-select-colour: hotpink;
 }
 .tree-list {
 	list-style: none;
@@ -153,13 +154,14 @@ img {
 	gap: var(--tree-gap-x);
 }
 .tree-item:has(.person-card:hover) > .person-card {
-	outline: 1px solid #91a8c1;
+	border: 1px solid var(--connector-select-colour);
 }
 .tree-list, .tree-item {
 	position: relative;
 }
 /* curved horizontal */
 .tree-item:not(:first-of-type)::before {
+	--border-colour: var(--connector-colour);
 	content: "";
 	position: absolute;
 	
@@ -170,11 +172,15 @@ img {
 	height: calc(var(--card-height) / 2);
 
 	border-bottom-left-radius: var(--connector-radius);
-	border-left: 1px solid var(--connector-colour);
-	border-bottom: 1px solid var(--connector-colour);
+	border-left: 1px solid var(--border-colour);
+	border-bottom: 1px solid var(--border-colour);
+}
+.tree-item:not(:first-of-type):has(.person-card:hover)::before {
+	--border-colour: var(--connector-select-colour);
 }
 /* straight vertical */
 .tree-item:not(:last-of-type)::after {
+	--border-colour: var(--connector-colour);
 	content: "";
 	position: absolute;
 	
@@ -183,10 +189,14 @@ img {
 	
 	height: 100%;
 	
-	border-right: 1px solid var(--connector-colour);
+	border-right: 1px solid var(--border-colour);
+}
+.tree-item:has(~ .tree-item .person-card:hover)::after {
+	--border-colour: var(--connector-select-colour);
 }
 /* straight horizontal */
 .tree-item:first-of-type::before {
+	--border-colour: var(--border-colour);
 	content: "";
 	position: absolute;
 	
