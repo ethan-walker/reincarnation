@@ -89,13 +89,13 @@ img {
 	object-fit: cover;
 }
 .person-card {
-	padding: .5rem;
+	padding: .5em;
 	border-radius: 10px;
 	background-color: white;
 	display: grid;
-	grid-template-columns: 5rem auto;
-	gap: 1rem;
-	width: 20rem;
+	grid-template-columns: 5em auto;
+	gap: 1em;
+	width: 20em;
 	border: 1px solid #91a8c1;
 	background: linear-gradient(0deg, #f7feff, #fff 70%);
 }
@@ -106,7 +106,7 @@ img {
 .person-image {
 	aspect-ratio: 1;
 	border-radius: 5px;
-	height: 5rem;
+	height: 5em;
 }
 .person-details {
 	display: grid;
@@ -132,13 +132,13 @@ img {
 .scroll-tree {
 	padding: 25%;
 	width: fit-content;
-	transform: scale(1);
+	font-size: .6rem;
 	
-	--card-height: 6rem;
-	--card-width: 20rem;
-	--tree-gap-x: 3rem;
-	--tree-gap-y: 3rem;
-	--connector-gap: 1rem;
+	--card-height: 6em;
+	--card-width: 20em;
+	--tree-gap-x: 3em;
+	--tree-gap-y: 3em;
+	--connector-gap: 1em;
 	--connector-radius: 10px;
 	--connector-colour: #91a8c1;
 	--connector-select-colour: hotpink;
@@ -155,6 +155,7 @@ img {
 }
 .tree-item:has(.person-card:hover) > .person-card {
 	border: 1px solid var(--connector-select-colour);
+	box-shadow: 0 0 0 .5px var(--connector-select-colour);
 }
 .tree-list, .tree-item {
 	position: relative;
