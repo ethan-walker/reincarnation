@@ -155,7 +155,7 @@ img {
 }
 .tree-item:has(.person-card:hover) > .person-card {
 	border: 1px solid var(--connector-select-colour);
-	box-shadow: 0 0 0 .5px var(--connector-select-colour);
+	box-shadow: 0 0 3px 0 var(--connector-select-colour);
 }
 .tree-list, .tree-item {
 	position: relative;
@@ -207,4 +207,7 @@ img {
 	width: var(--tree-gap-x);
 
 	border-bottom: 1px solid var(--connector-colour);
+}
+.person-alive {
+	box-shadow: 0 0 3px 0 limegreen;
 }
