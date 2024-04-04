@@ -2,6 +2,68 @@ const scrollView = document.querySelector(".scroll-view");
 const scrollTree = document.querySelector(".scroll-tree");
 const treeRoot = document.querySelector(".tree-list");
 
+const reincarnationWeights = [
+	0.1, 1.9, 10, 88
+]
+const reincarnationOptions = [
+	[
+		"🦠/Covid 2",
+		"💣/Uranium-235",
+		"🦊/The Thought Fox",
+		" /Nothing"
+	],
+	[
+		"📖/A bible",
+		"🪅/A piñata?",
+		"🧻/Toilet paper",
+		"🦆/A rubber duck",
+		"👾/A space invader",
+		"⚡/Lightning",
+		"❄️/A snowflake"
+	],
+	[
+		"🍕/A slice of pizza?",
+		"🎄/A christmas tree",
+		"🍣/A piece of sushi",
+		"🍌/A banana",
+		"🌮/A taco"
+	],
+	[
+		"🧑‍⚕️/A doctor",
+		"🦜/A parrot",
+		"🐛/A caterpillar",
+		"🪨/A rock",
+		"🌳/A tree",
+		"🌲/A tree",
+		"🌱/A seed",
+		"🍎/An apple",
+		"🐕/A dog",
+		"🪸/A piece of coral",
+		"☁️/A cloud",
+		"🐆/A leopard",
+		"🦢/A swan",
+		"🐄/A cow",
+		"🦔/A hedgehog",
+		"🐋/A whale",
+		"🦀/A crab",
+		"🐩/A poodle",
+		"🦒/A giraffe",
+		"🦋/A butterfly",
+		"🐍/A snake",
+		"🦁/A lion",
+		"🐓/A rooster",
+		"🐇/A rabbit",
+		"🐅/A tiger",
+		"🐑/A sheep",
+		"🐠/A fish",
+		"🐿️/A squirrel",
+		"🐌/A snail",
+		"🐊/A crocodile",
+		"🦩/A flamingo",
+		"🦊/A fox"
+	]
+]
+
 function getPeople(date, elem) {
 	let query = `
 		SELECT ?person ?personLabel ?personDescription ?dod ?gender ?info ?dob ?yod ?yob (SAMPLE(?pics) AS ?image)
@@ -43,59 +105,6 @@ function getPeople(date, elem) {
 
 			elem.appendChild(list);
 
-			const reincarnationWeights = [
-				0.1, 1.9, 10, 88
-			]
-			const reincarnationOptions = [
-				[
-					"🦠/Covid 2",
-					"💣/Uranium-235"
-				],
-				[
-					"📖/A bible",
-					"🪅/A piñata?",
-					"🧻/Toilet paper",
-					"🦆/A rubber duck"
-				],
-				[
-					"🍕/A slice of pizza?",
-					"🎄/A christmas tree"
-				],
-				[
-					"🧑‍⚕️/A doctor",
-					"🦜/A parrot",
-					"🐛/A caterpillar",
-					"🪨/A rock",
-					"🌳/A tree",
-					"🌲/A tree",
-					"🌱/A seed",
-					"🍎/An apple",
-					"🐕/A dog",
-					"🪸/A piece of coral",
-					"☁️/A cloud",
-					"🐆/A leopard",
-					"🦢/A swan",
-					"🐄/A cow",
-					"🦔/A hedgehog",
-					"🐋/A whale",
-					"🦀/A crab",
-					"🐩/A poodle",
-					"🦒/A giraffe",
-					"🦋/A butterfly",
-					"🐍/A snake",
-					"🦁/A lion",
-					"🐓/A rooster",
-					"🐇/A rabbit",
-					"🐅/A tiger",
-					"🐑/A sheep",
-					"🐠/A fish",
-					"🐿️/A squirrel",
-					"🐌/A snail",
-					"🐊/A crocodile",
-					"🦩/A flamingo",
-					"🦊/A fox"
-				]
-			]
 			if (bindings.length === 0) {
 				var reincarnationList = weightedRandom(reincarnationOptions, reincarnationWeights);
 				var label = randomItem(reincarnationList).split("/");
@@ -178,5 +187,3 @@ function getPeople(date, elem) {
 const start = localStorage.getItem("date");
 
 getPeople(start, scrollTree);
-
-scrollDrag(scrollView);

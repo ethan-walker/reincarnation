@@ -19,43 +19,6 @@ function queryWikidataAction(params) {
 		.then(response => response.json())
 }
 
-/* 🖱️ SCROLL DRAG FUNCTION */
-function scrollDrag(container) {
-	var start_x, start_y, change_x, change_y
-
-	container.onmousedown = dragStart;
-
-	function dragStart(e) {
-		document.onmousemove = dragMove;
-		document.onmouseup = dragEnd;
-
-		start_x = e.clientX;
-		start_y = e.clientY;
-
-		container.style.cursor = "grabbing";
-		container.style.userSelect = "none";
-	}
-
-	function dragMove(e) {
-		e.preventDefault();
-
-		change_x = e.clientX - start_x;
-		change_y = e.clientY - start_y;
-
-		container.scrollTop -= change_y;
-		container.scrollLeft -= change_x;
-
-		start_x = e.clientX;
-		start_y = e.clientY;
-	}
-
-	function dragEnd(e) {
-		document.onmousemove = null;
-		document.onmouseup = null;
-		container.style.removeProperty('user-select');
-		container.style.cursor = "grab";
-	}
-}
 function emojiImage(emoji) {
 	var scale = window.devicePixelRatio;
 	var canvas = document.createElement("canvas");

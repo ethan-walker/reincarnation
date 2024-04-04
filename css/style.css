@@ -160,53 +160,47 @@ img {
 .tree-list, .tree-item {
 	position: relative;
 }
-/* curved horizontal */
-.tree-item:not(:first-of-type)::before {
-	--border-colour: var(--connector-colour);
+.tree-item:not(:last-of-type)::before {
+	z-index: 1;
+	
+	content: "";
+	position: absolute;
+	
+	left: calc(-1 * var(--connector-gap));
+	
+	height: calc(100% + var(--tree-gap-y));
+
+	border-left: 1px solid var(--connector-colour);
+}
+.tree-item:first-of-type::before {
+	height: calc(100% + var(--tree-gap-y));
+	top: calc(var(--card-height) / 2);
+}
+.tree-item:has(~ .tree-item .person-card:hover)::before {
+	border-color: var(--connector-select-colour);
+}
+.tree-item:has(.person-card:hover) > .person-card::before {
+	z-index: 2;
+	border-color: var(--connector-select-colour);
+}
+.person-card::before {
+	z-index: 0;
 	content: "";
 	position: absolute;
 	
 	top: 0;
 	left: calc(-1 * var(--connector-gap));
-	
-	width: var(--connector-gap);
+
 	height: calc(var(--card-height) / 2);
+	width: var(--connector-gap);
 
-	border-bottom-left-radius: var(--connector-radius);
-	border-left: 1px solid var(--border-colour);
-	border-bottom: 1px solid var(--border-colour);
-}
-.tree-item:not(:first-of-type):has(.person-card:hover)::before {
-	--border-colour: var(--connector-select-colour);
-}
-/* straight vertical */
-.tree-item:not(:last-of-type)::after {
-	--border-colour: var(--connector-colour);
-	content: "";
-	position: absolute;
-	
-	top: calc(var(--card-height) / 2);
-	left: calc(-1 * var(--connector-gap));
-	
-	height: 100%;
-	
-	border-right: 1px solid var(--border-colour);
-}
-.tree-item:has(~ .tree-item .person-card:hover)::after {
-	--border-colour: var(--connector-select-colour);
-}
-/* straight horizontal */
-.tree-item:first-of-type::before {
-	--border-colour: var(--border-colour);
-	content: "";
-	position: absolute;
-	
-	top: calc(var(--card-height) / 2);
-	left: calc(-1 * var(--tree-gap-x));
-	
-	width: var(--tree-gap-x);
-
+	border-left: 1px solid var(--connector-colour);
 	border-bottom: 1px solid var(--connector-colour);
+	border-bottom-left-radius: var(--connector-radius);
+}
+.tree-item:first-of-type > .person-card::before {
+	height: 0;
+	top: calc(var(--card-height) / 2);
 }
 .person-alive {
 	box-shadow: 0 0 3px 0 limegreen;
