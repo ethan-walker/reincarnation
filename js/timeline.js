@@ -12,7 +12,10 @@ const reincarnationOptions = [
 		"🦠/Covid 2",
 		"💣/Uranium-235",
 		"🦊/The Thought Fox",
-		" /Nothing"
+		" /Nothing",
+		"⏳/The concept of time",
+		"🧑‍⚕️/Doctor Who",
+		"🦈/Jaws 5"
 	],
 	[
 		"📖/A bible",
@@ -21,14 +24,20 @@ const reincarnationOptions = [
 		"🦆/A rubber duck",
 		"👾/A space invader",
 		"⚡/Lightning",
-		"❄️/A snowflake"
+		"🕳️/A hole",
+		"🌈/A rainbow",
+		"💵/Money"
 	],
 	[
 		"🍕/A slice of pizza",
 		"🎄/A christmas tree",
 		"🍣/A piece of sushi",
 		"🍌/A banana",
-		"🌮/A taco"
+		"🌮/A taco",
+		"🟤/Mud",
+		"❄️/A snowflake",
+		"🌫️/Dust",
+		"🥔/A potato"
 	],
 	[
 		"🧑‍⚕️/A doctor",
@@ -37,6 +46,7 @@ const reincarnationOptions = [
 		"🪨/A rock",
 		"🌳/A tree",
 		"🌲/A tree",
+		"🌴/A tree",
 		"🌱/A seed",
 		"🍎/An apple",
 		"🐕/A dog",
@@ -62,7 +72,8 @@ const reincarnationOptions = [
 		"🐌/A snail",
 		"🐊/A crocodile",
 		"🦩/A flamingo",
-		"🦊/A fox"
+		"🦊/A fox",
+		"🌻/A sunflower"
 	]
 ]
 
@@ -107,81 +118,63 @@ function getPeople(date, elem) {
 
 			elem.appendChild(list);
 
+
 			if (bindings.length === 0) {
 				var reincarnationList = weightedRandom(reincarnationOptions, reincarnationWeights);
 				var label = randomItem(reincarnationList).split("/");
+
+				var card = createCard({
+					"name" : label[1],
+					"image" : emojiImage(label[0]),
+					"description" : "No recorded human was born on the right date.",
+				})
 				var item = document.createElement("li");
 				item.classList.add("tree-item");
 				list.appendChild(item);
-
-				var card = document.createElement("card");
-				card.classList.add("person-card");
-
-				var img = document.createElement("img");
-				img.classList.add("person-image")
-				img.src = emojiImage(label[0]);
-				card.appendChild(img);
-
-				var details = document.createElement("card");
-				details.classList.add("person-details");
-
-				var name = document.createElement("span");
-				name.classList.add("person-name");
-				name.textContent = label[1]
-				details.appendChild(name)
-
-				// var lifetime = document.createElement("span")
-				// lifetime.classList.add("lifetime")
-
-				var description = document.createElement("div");
-				description.classList.add("person-description");
-				description.textContent = "No recorded human was born on the right date."
-				details.appendChild(description);
-
-				card.appendChild(details);
-
+				
 				item.appendChild(card);
-				console.log("Path ended");
+				
 				return;
 			}
 			
 			for (var person of bindings) {
+				try {
+					var description = person.personDescription.value;
+				}
+				catch {
+					var description = "No description available."
+				}
+				try {
+					var img = person.image.value;
+				}
+				catch {
+					var img = "./assets/blank.svg";
+				}
+				try {
+					var yod = person.yod.value;
+				}
+				catch {
+					var yod = "";
+				}
+				
+				var card = createCard({
+					"name" : person.personLabel.value,
+					"description" : description,
+					"image" : img,
+					"lifetime" : `(${person.yob.value}-${yod})`
+				})
+
 				var item = document.createElement("li");
 				item.classList.add("tree-item");
 				list.appendChild(item);
 				
-				var card = document.createElement("card");
-				card.classList.add("person-card");
-				
-				var img = document.createElement("img");
-				img.classList.add("person-image")
-				img.src = (person.image || {"value" : "./assets/blank.svg"}).value;
-				card.appendChild(img);
-
-				var details = document.createElement("card");
-				details.classList.add("person-details");
-				
-				var name = document.createElement("span");
-				name.classList.add("person-name");
-				name.textContent = `${person.personLabel.value} (${person.yob.value}-${(person.yod || {"value" : ""}).value})`
-				details.appendChild(name)
-				
-				// var lifetime = document.createElement("span")
-				// lifetime.classList.add("lifetime")
-
-				var description = document.createElement("div");
-				description.classList.add("person-description");
-				description.textContent = (person.personDescription || {"value" : "No description available"}).value;
-				details.appendChild(description);
-
-				card.appendChild(details);
-				
 				item.appendChild(card);
+				
 				try {
 					getPeople(person.dod.value, item);
 				}
 				catch {
-					card.classList.add("person-alive");
+					return card.classList.add("person-alive");
 				}
 			}
 		})
@@ -190,3 +183,37 @@ const start = localStorage.getItem("date");
 
 getPeople(start, scrollTreeList);
 
+function createCard(values) {
+	var card = document.createElement("card");
+	card.classList.add("person-card");
+
+	var img = document.createElement("img");
+	img.classList.add("person-image")
+	img.src = values.image;
+	card.appendChild(img);
+
+	var details = document.createElement("card");
+	details.classList.add("person-details");
+
+	var name = document.createElement("span");
+	name.classList.add("person-name");
+	name.textContent = values.name
+	details.appendChild(name)
+
+	try {
+		var lifetime = document.createElement("span")
+		lifetime.classList.add("lifetime")
+		lifetime.textContent = values.lifetime;
+		name.appendChild(lifetime);
+	}
+	catch { /* pass */ }
+
+	var description = document.createElement("div");
+	description.classList.add("person-description");
+	description.textContent = values.description;
+	details.appendChild(description);
+
+	card.appendChild(details);
+	
+	return card;
+}

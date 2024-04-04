@@ -2,7 +2,7 @@
 function queryWikidata(query) {
 	const apiUrl = "https://query.wikidata.org/sparql";
 
-	const url = apiUrl + "?query=" + encodeURIComponent(query);
+	const url = apiUrl + "?query=" + encodeURIComponent(query) + "";
 	const headers = {"Accept" : "application/sparql-results+json"}
 
 	return fetch(url, {headers}).then(response => response.json())
@@ -16,7 +16,12 @@ function queryWikidataAction(params) {
 		paramStr += `${key}=${encodeURIComponent(params[key])}&`
 	}
 	return fetch(`${apiUrl}${paramStr}origin=*`)
-		.then(response => response.json())
+		.then(response => {
+			if(response.status === 429) {
+				console.log("Timeout")
+			}
+			return response.json()
+		})
 }
 
 function emojiImage(emoji) {
