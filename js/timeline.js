@@ -174,7 +174,7 @@ function getPeople(date, elem) {
 					getPeople(person.dod.value, item);
 				}
 				catch {
-					return card.classList.add("person-alive");
+					card.classList.add("person-alive");
 				}
 			}
 		})
