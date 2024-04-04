@@ -34,6 +34,8 @@ function dragMove(e) {
 	start_y = e.clientY;
 
 	scrollTree.style.transform = `translate(${translate.x}px, ${translate.y}px) scale(${scale})`;
+
+	isOffscreen();
 }
 
 function dragEnd(e) {
@@ -83,4 +85,36 @@ function mousePos(e) {
 	scrollTree.style.setProperty('--mouse-x', origin.x + "px");
 	scrollTree.style.setProperty('--mouse-y', origin.y + "px");
 
+}
+
+function isOffscreen() {
+	var markerGap = 20;
+	let rect = treeRoot.getBoundingClientRect();
+
+	markerGap = markerGap + (rootMarker.getBoundingClientRect().width / 2);
+	
+	if (
+		rect.x + rect.width < 0 ||
+		rect.y + rect.height < 0 ||
+		rect.x > window.innerWidth ||
+		rect.y > window.innerHeight
+	) {
+		let x = clamp(rect.x, markerGap, window.innerWidth - markerGap);
+		let y = clamp(rect.y, markerGap, window.innerHeight - markerGap);
+		
+		rootMarker.style.left = x + "px";
+		rootMarker.style.top = y + "px";
+
+		dy = x - rect.x
+		dx = y - rect.y
+		theta = Math.atan2(dy, dx)
+		theta *= -180/Math.PI;
+
+		rootMarker.style.rotate = theta + "deg";
+		
+		rootMarker.classList.add("visible");
+	}
+	else {
+		rootMarker.classList.remove("visible");
+	}
 }

@@ -1,3 +1,6 @@
+:root {
+	--bezier: cubic-bezier(.49,.24,.25,1.7);
+}
 html {
   height: 100%;
   width: 100%;
@@ -204,4 +207,60 @@ img {
 }
 .person-alive {
 	box-shadow: 0 0 3px 0 limegreen;
+}
+
+.root-marker {
+	border-radius: 50vh;
+	height: 4rem;
+	aspect-ratio: 1;
+	position: absolute;
+	inset: 2rem;
+	border: 1px solid red;
+	background-color: rgb(255 255 255 / .8);
+	translate: -50% -50%;
+	user-select: none;
+	z-index: 10;
+	backdrop-filter: blur(2px);
+	opacity: 0;
+	scale: .7;
+	transition: opacity 100ms var(--bezier), scale 100ms var(--bezier);
+}
+.root-marker::before {
+	content: "\e8fd";
+	
+	font-family: unicons-line;
+	font-style: normal;
+	font-weight: 400;
+	speak: none;
+	display: inline-block;
+	text-decoration: inherit;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	
+	position: absolute;
+	top: -1.15em;
+	left: 50%;
+	transform: translateX(-50%);
+}
+.root-marker.visible {
+	opacity: 1;
+	scale: 1;
+}
+@keyframes root-marker {
+	from {
+		opacity: 0;
+		scale: .7;
+	}
+	to {
+		opacity: 1;
+	}
+}
+@keyframes root-marker-hide {
+	to {
+		opacity: 0;
+		scale: .7;
+	}
 }

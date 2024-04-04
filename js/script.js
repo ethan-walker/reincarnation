@@ -65,3 +65,6 @@ function weightedRandom(arr, weights) {
 			}
 	}
 }
+function clamp(val, lo, hi) {
+	 return Math.min(Math.max(lo, val), hi);
+}

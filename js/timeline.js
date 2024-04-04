@@ -1,6 +1,8 @@
 const scrollView = document.querySelector(".scroll-view");
 const scrollTree = document.querySelector(".scroll-tree");
-const treeRoot = document.querySelector(".tree-list");
+const scrollTreeList = document.querySelector(".tree-list");
+const treeRoot = document.querySelector(".tree-root");
+const rootMarker = document.querySelector(".root-marker");
 
 const reincarnationWeights = [
 	0.1, 1.9, 10, 88
@@ -14,7 +16,7 @@ const reincarnationOptions = [
 	],
 	[
 		"📖/A bible",
-		"🪅/A piñata?",
+		"🪅/A piñata",
 		"🧻/Toilet paper",
 		"🦆/A rubber duck",
 		"👾/A space invader",
@@ -22,7 +24,7 @@ const reincarnationOptions = [
 		"❄️/A snowflake"
 	],
 	[
-		"🍕/A slice of pizza?",
+		"🍕/A slice of pizza",
 		"🎄/A christmas tree",
 		"🍣/A piece of sushi",
 		"🍌/A banana",
@@ -186,4 +188,5 @@ function getPeople(date, elem) {
 }
 const start = localStorage.getItem("date");
 
-getPeople(start, scrollTree);
+getPeople(start, scrollTreeList);
+
