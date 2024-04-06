@@ -1,6 +1,5 @@
 const scrollView = document.querySelector(".scroll-view");
 const scrollTree = document.querySelector(".scroll-tree");
-const scrollTreeList = document.querySelector(".tree-list");
 const treeRoot = document.querySelector(".tree-root");
 const rootMarker = document.querySelector(".root-marker");
 
@@ -26,7 +25,8 @@ const reincarnationOptions = [
 		"⚡/Lightning",
 		"🕳️/A hole",
 		"🌈/A rainbow",
-		"💵/Money"
+		"💵/Money",
+		"🫕/Cheese fondue"
 	],
 	[
 		"🍕/A slice of pizza",
@@ -79,14 +79,21 @@ const reincarnationOptions = [
 
 function getPeople(date, elem) {
 	let query = `
-		SELECT ?person ?personLabel ?personDescription ?dod ?gender ?info ?dob ?yod ?yob (SAMPLE(?pics) AS ?image)
+		SELECT ?person ?personLabel ?personDescription ?dod ?gender ?genderLabel ?dob ?yod ?yob (SAMPLE(?pics) AS ?image) ?article
 		WHERE {
 			VALUES ?dob {"${date}"^^xsd:dateTime}
 			?person wdt:P31 wd:Q5; # is human
 							wdt:P569 ?dob. # date of birth matches
+			OPTIONAL {
+				?person ^schema:about ?article .
+				?article schema:isPartOf <https://en.wikipedia.org/>;
+			}
 
 			# set variables 
-			OPTIONAL { ?person wdt:P21 ?gender. }
+			OPTIONAL {
+				?person wdt:P21 ?gender.
+				?gender rdfs:label ?genderlabel FILTER (lang(?genderlabel) = "en").
+			}
 			OPTIONAL { ?person wdt:P18 ?pics. }
 			OPTIONAL {
 				?person wdt:P570 ?dod.
@@ -96,7 +103,6 @@ function getPeople(date, elem) {
 									p:P570/psv:P570/wikibase:timePrecision "9"^^xsd:integer.
 				}
 			}
-			#BIND(?person schema:description AS ?info)
 			BIND(YEAR(?dob) AS ?yob)
 
 			MINUS {
@@ -106,8 +112,8 @@ function getPeople(date, elem) {
 				bd:serviceParam wikibase:language "en".
 			}
 		}
-		GROUP BY ?person ?personLabel ?personDescription ?dod ?gender ?info ?dob ?image ?yob ?yod
-		LIMIT 4
+		GROUP BY ?person ?personLabel ?personDescription ?dod ?gender ?genderLabel ?dob ?image ?yob ?yod ?article
+		LIMIT 3
 	`
 	queryWikidata(query)
 		.then(data => data.results)
@@ -156,12 +162,19 @@ function getPeople(date, elem) {
 				catch {
 					var yod = "";
 				}
+				try {
+					var gender = person.genderLabel.value;
+				}
+				catch {
+					var gender = "";
+				}
 				
 				var card = createCard({
 					"name" : person.personLabel.value,
 					"description" : description,
 					"image" : img,
-					"lifetime" : `(${person.yob.value}-${yod})`
+					"lifetime" : `(${person.yob.value}-${yod})`,
+					"gender" : gender
 				})
 
 				var item = document.createElement("li");
@@ -169,7 +182,10 @@ function getPeople(date, elem) {
 				list.appendChild(item);
 				
 				item.appendChild(card);
-				
+
+				if(person.article) {
+					card.classList.add("wikipedia");
+				}
 				try {
 					getPeople(person.dod.value, item);
 				}
@@ -179,13 +195,24 @@ function getPeople(date, elem) {
 			}
 		})
 }
+
 const start = localStorage.getItem("date");
 
-getPeople(start, scrollTreeList);
+getPeople(start, scrollTree);
 
 function createCard(values) {
 	var card = document.createElement("card");
 	card.classList.add("person-card");
+
+	try {
+		if (values.gender === "male") {
+			var genderIcon = `<i class="uil uil-mars"></i>`
+		}
+		else if (values.gender === "female") {
+			var genderIcon = `<i class="uil uil-venus"></i>`
+		}
+	}
+	catch {/* nothing */}
 
 	var img = document.createElement("img");
 	img.classList.add("person-image")
@@ -197,7 +224,7 @@ function createCard(values) {
 
 	var name = document.createElement("span");
 	name.classList.add("person-name");
-	name.textContent = values.name
+	name.innerHTML = `${genderIcon || ""}${values.name} `
 	details.appendChild(name)
 
 	try {
@@ -216,4 +243,8 @@ function createCard(values) {
 	card.appendChild(details);
 	
 	return card;
+}
+
+rootMarker.onclick = function returnToRoot() {
+	console.log("returning")
 }

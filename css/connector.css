@@ -1,0 +1,56 @@
+@import "./style.css";
+
+.tree-item:not(:last-of-type)::before {
+	z-index: 1;
+
+	content: "";
+	position: absolute;
+
+	left: calc(-1 * var(--connector-gap));
+
+	height: calc(100% + var(--tree-gap-y));
+
+	border-left: var(--connector-width) solid var(--connector-colour);
+}
+.tree-item:first-of-type::before {
+	height: calc(100% + var(--tree-gap-y));
+	top: calc(var(--card-height) / 2);
+}
+.tree-item:has(~ .tree-item .person-card:hover)::before {
+	border-color: var(--connector-select-colour);
+}
+.tree-item:has(.person-card:hover) > .person-card::before {
+	z-index: 2;
+	border-color: var(--connector-select-colour);
+}
+
+.person-card::before {
+	z-index: 0;
+	content: "";
+	position: absolute;
+
+	top: 0;
+	left: calc(-1 * var(--connector-gap));
+
+	height: calc(var(--card-height) / 2);
+	width: var(--connector-gap);
+
+	border-left: var(--connector-width) solid var(--connector-colour);
+	border-bottom: var(--connector-width) solid var(--connector-colour);
+	border-bottom-left-radius: var(--connector-radius);
+}
+.tree-item:nth-child(1 of .tree-item)  > .person-card::before {
+	height: 0;
+	top: calc(var(--card-height) / 2);
+}
+.tree-list::before {
+	content: "";
+	position: absolute;
+	left: calc(-1 * var(--tree-gap-x));
+	top: calc(var(--card-height) / 2);
+	width: calc(var(--tree-gap-x) - var(--connector-gap));
+	border-bottom: var(--connector-width) solid var(--connector-colour);
+}
+.tree-list:has(.person-card:hover)::before {
+	border-color: var(--connector-select-colour);
+}

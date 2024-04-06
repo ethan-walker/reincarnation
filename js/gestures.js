@@ -53,13 +53,10 @@ scrollView.onwheel = (e) => {
 	// Restrict scale
 	scale = Math.min(Math.max(0.25, scale), 4);
 
-	mousePos(e);
-
-	// Apply scale 
-	// scrollTree.style.transform = `translate(${translate.x}px, ${translate.y}px) scale(${scale})`;
+	scrollTree.style.transform = `translate(${translate.x}px, ${translate.y}px) scale(${scale})`;
 };
 
-// scrollView.onmousemove = mousePos;
+scrollView.onmousemove = mousePos;
 
 function mousePos(e) {
 	let rect = scrollTree.getBoundingClientRect();
@@ -67,8 +64,6 @@ function mousePos(e) {
 	//relative absolute mouse pos
 	let x = e.clientX - rect.left;
 	let y = e.clientY - rect.top;
-
-	console.log(rect.left);
 
 	newOrigin.x = (x - translate.x + origin.x * (scale - 1));
 	newOrigin.y = (y - translate.y + origin.y * (scale - 1));

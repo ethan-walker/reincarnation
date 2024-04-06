@@ -5,13 +5,13 @@ html {
   height: 100%;
   width: 100%;
 }
-* {
+*, *::before, *::after {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
 }
 body {
-	font-family: "General Sans", sans-serif;
+	font-family: Plus Jakarta Sans, Arial, Helvetica, sans-serif;
 	overflow: hidden;
 }
 i::before {
@@ -98,13 +98,17 @@ img {
 	display: grid;
 	grid-template-columns: 5em auto;
 	gap: 1em;
-	width: 20em;
-	border: 1px solid #91a8c1;
-	background: linear-gradient(0deg, #f7feff, #fff 70%);
+	width: var(--card-width);
+	/*background: linear-gradient(0deg, #f7feff, #fff 70%);*/
+	box-shadow: 0 1px 10px -3px rgba(0 0 0 / .2);
+	border: var(--connector-width) solid transparent;
+	animation: person-card 100ms var(--bezier);
 }
-.person-card:hover {
-	border-color: #747a81;
-	background: linear-gradient(0deg, #ecf2f4, #fff 90%);
+@keyframes person-card {
+	from {
+		opacity: 0;
+		scale: .7;
+	}
 }
 .person-image {
 	aspect-ratio: 1;
@@ -118,6 +122,7 @@ img {
 .person-description {
 	font-style: italic;
 	font-size: .9em;
+	font-weight: 300;
 }
 .person-name {
 	font-weight: bold;
@@ -131,20 +136,21 @@ img {
 	width: 100vw;
 	height: 100vh;
 	overflow: hidden;
+	background-color: var(--color-bg);
 }
 .scroll-tree {
-	padding: 25%;
+	padding: 5rem;
 	width: fit-content;
-	font-size: .6rem;
 	
 	--card-height: 6em;
-	--card-width: 20em;
+	--card-width: 22em;
 	--tree-gap-x: 3em;
 	--tree-gap-y: 3em;
 	--connector-gap: 1em;
 	--connector-radius: 10px;
 	--connector-colour: #91a8c1;
 	--connector-select-colour: hotpink;
+	--connector-width: .1rem;
 }
 .tree-list {
 	list-style: none;
@@ -157,54 +163,12 @@ img {
 	gap: var(--tree-gap-x);
 }
 .tree-item:has(.person-card:hover) > .person-card {
-	border: 1px solid var(--connector-select-colour);
-	box-shadow: 0 0 3px 0 var(--connector-select-colour);
+	border-color: hotpink;
 }
 .tree-list, .tree-item {
 	position: relative;
 }
-.tree-item:not(:last-of-type)::before {
-	z-index: 1;
-	
-	content: "";
-	position: absolute;
-	
-	left: calc(-1 * var(--connector-gap));
-	
-	height: calc(100% + var(--tree-gap-y));
 
-	border-left: 1px solid var(--connector-colour);
-}
-.tree-item:first-of-type::before {
-	height: calc(100% + var(--tree-gap-y));
-	top: calc(var(--card-height) / 2);
-}
-.tree-item:has(~ .tree-item .person-card:hover)::before {
-	border-color: var(--connector-select-colour);
-}
-.tree-item:has(.person-card:hover) > .person-card::before {
-	z-index: 2;
-	border-color: var(--connector-select-colour);
-}
-.person-card::before {
-	z-index: 0;
-	content: "";
-	position: absolute;
-	
-	top: 0;
-	left: calc(-1 * var(--connector-gap));
-
-	height: calc(var(--card-height) / 2);
-	width: var(--connector-gap);
-
-	border-left: 1px solid var(--connector-colour);
-	border-bottom: 1px solid var(--connector-colour);
-	border-bottom-left-radius: var(--connector-radius);
-}
-.tree-item:first-of-type > .person-card::before {
-	height: 0;
-	top: calc(var(--card-height) / 2);
-}
 .person-alive {
 	box-shadow: 0 0 3px 0 limegreen;
 }
@@ -248,19 +212,9 @@ img {
 .root-marker.visible {
 	opacity: 1;
 	scale: 1;
+	cursor: pointer;
 }
-@keyframes root-marker {
-	from {
-		opacity: 0;
-		scale: .7;
-	}
-	to {
-		opacity: 1;
-	}
-}
-@keyframes root-marker-hide {
-	to {
-		opacity: 0;
-		scale: .7;
-	}
+
+.person-card.wikipedia {
+	color: dodgerblue;
 }
