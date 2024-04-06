@@ -17,18 +17,22 @@ body {
 i::before {
 	font-weight: inherit !important;
 }
+img {
+	display: block;
+	max-width: 100%;
+}
 input {
 	font-family: inherit;
 	font-size: inherit;
 }
-header {
+/* RESULTS */
+.main-header {
 	height: 10vh;
 	display: grid;
 	place-content: center;
 	font-size: 1.2em;
 	font-weight: bold;
 }
-/* RESULTS */
 .result-name {
 	font-weight: bold;
 }
@@ -86,56 +90,12 @@ header {
 	object-fit: cover;
 }
 /* TIMELINE */
-img {
-	display: block;
-	max-width: 100%;
-	object-fit: cover;
-}
-.person-card {
-	padding: .5em;
-	border-radius: 10px;
-	background-color: white;
-	display: grid;
-	grid-template-columns: 5em auto;
-	gap: 1em;
-	width: var(--card-width);
-	/*background: linear-gradient(0deg, #f7feff, #fff 70%);*/
-	box-shadow: 0 3px 6px -2px rgba(0 0 0 / .2);
-	border: var(--connector-width) solid transparent;
-	animation: person-card 100ms var(--bezier);
-}
-@keyframes person-card {
-	from {
-		opacity: 0;
-		scale: .7;
-	}
-}
-.person-image {
-	aspect-ratio: 1;
-	border-radius: 5px;
-	height: 5em;
-}
-.person-details {
-	display: grid;
-	align-content: center;
-}
-.person-description {
-	font-style: italic;
-	font-size: .9em;
-	font-weight: 300;
-}
-.person-name {
-	font-weight: bold;
-}
-#container {
- cursor: grab;
-}
 
 .scroll-view {
 	width: 100vw;
 	height: 100vh;
 	overflow: hidden;
-	background-color: #f1f3f5;
+	background-color: #f4f3f4;
 }
 .scroll-tree {
 	padding: 5rem;
@@ -171,6 +131,51 @@ img {
 .person-alive {
 	border-color: limegreen;
 }
+/* PERSON CARD */
+
+.person-card {
+	padding: .5em;
+	border-radius: 10px;
+	background-color: white;
+	display: grid;
+	grid-template-columns: 5em auto;
+	gap: 1em;
+	width: var(--card-width);
+	/*background: linear-gradient(0deg, #f7feff, #fff 70%);*/
+	box-shadow: 0 3px 6px -2px rgba(0 0 0 / .2);
+	border: var(--connector-width) solid #e6e6e6;
+	animation: person-card 100ms var(--bezier);
+}
+.person-card.wikipedia .person-name {
+	color: dodgerblue;
+}
+@keyframes person-card {
+	from {
+		opacity: 0;
+		scale: .7;
+	}
+}
+.person-image {
+	aspect-ratio: 1;
+	border-radius: 5px;
+	height: 5em;
+	object-fit: cover;
+}
+.person-details {
+	display: grid;
+	align-content: center;
+}
+.person-description {
+	font-style: italic;
+	font-size: .9em;
+	font-weight: 300;
+	color: #707070;
+}
+.person-name {
+	font-weight: bold;
+}
+
+/* ROOT MARKER */
 
 .root-marker {
 	border-radius: 50vh;
@@ -214,6 +219,39 @@ img {
 	cursor: pointer;
 }
 
-.person-card.wikipedia {
-	color: dodgerblue;
+/* TIMELINE HEADER */
+.timeline-header {
+	position: absolute;
+	inset: 0;
+	height: 10vh;
+	width: 100vw;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-inline: 1rem;
+	z-index: 999;
+	background: linear-gradient(
+		rgb(255 255 255),
+		rgb(255 255 255 / 0)
+	)
+}
+
+/* TOASTS */
+.toast-container {
+	position: absolute;
+	bottom: 0;
+	width: 100vw;
+	display: grid;
+	justify-items: center;
+	align-items: flex-end;
+	gap: .5rem;
+	margin-bottom: .5rem;
+	z-index: 999;
+	user-select: none;
+}
+.toast {
+	background-color: rgb(255 255 255 / .8);
+	backdrop-filter: blur(2px);
+	border-radius: 5px;
+	padding: .2em .5em;
 }
