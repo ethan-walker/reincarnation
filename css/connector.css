@@ -1,4 +1,8 @@
 @import "./style.css";
+.scroll-tree {
+	--connector-border: var(--connector-width) dashed var(--connector-colour);
+}
+
 
 .tree-item:not(:last-of-type)::before {
 	z-index: 1;
@@ -10,7 +14,7 @@
 
 	height: calc(100% + var(--tree-gap-y));
 
-	border-left: var(--connector-width) solid var(--connector-colour);
+	border-left: var(--connector-border);
 }
 .tree-item:first-of-type::before {
 	height: calc(100% + var(--tree-gap-y));
@@ -35,8 +39,8 @@
 	height: calc(var(--card-height) / 2);
 	width: var(--connector-gap);
 
-	border-left: var(--connector-width) solid var(--connector-colour);
-	border-bottom: var(--connector-width) solid var(--connector-colour);
+	border-left: var(--connector-border);
+	border-bottom: var(--connector-border);
 	border-bottom-left-radius: var(--connector-radius);
 }
 .tree-item:nth-child(1 of .tree-item)  > .person-card::before {
@@ -49,7 +53,7 @@
 	left: calc(-1 * var(--tree-gap-x));
 	top: calc(var(--card-height) / 2);
 	width: calc(var(--tree-gap-x) - var(--connector-gap));
-	border-bottom: var(--connector-width) solid var(--connector-colour);
+	border-bottom: var(--connector-border);
 }
 .tree-list:has(.person-card:hover)::before {
 	border-color: var(--connector-select-colour);

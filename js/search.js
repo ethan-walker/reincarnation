@@ -2,6 +2,12 @@ const nameInput = document.querySelector(".search-input");
 const searchButton = document.querySelector(".search-button");
 const results = document.querySelector(".result-list");
 
+
+nameInput.onkeyup = function(e) {
+	if (e.key === "Enter") {
+		searchName();
+	}
+}
 searchButton.onclick = searchName;
 
 function searchName() {
