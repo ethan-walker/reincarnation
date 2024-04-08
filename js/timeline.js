@@ -3,6 +3,11 @@ const scrollTree = document.querySelector(".scroll-tree");
 const treeRoot = document.querySelector(".tree-root");
 const rootMarker = document.querySelector(".root-marker");
 
+const backBtn = document.querySelector(".back-button");
+const infoBtn = document.querySelector(".info-button");
+
+let finished = false;
+
 const reincarnationWeights = [
 	0.1, 1.9, 10, 88
 ]
@@ -76,6 +81,46 @@ const reincarnationOptions = [
 		"🌻/A sunflower"
 	]
 ]
+
+var x = "hi"
+
+const personQuery = `
+SELECT ?person ?personLabel ?personDescription ?dod ?gender ?genderLabel ?dob ?yod ?yob (SAMPLE(?pics) AS ?image) ?article
+	WHERE {
+		VALUES ?dob {"${x}"^^xsd:dateTime}
+		?person wdt:P31 wd:Q5; # is human
+						wdt:P569 ?dob. # date of birth matches
+		OPTIONAL {
+			?person ^schema:about ?article .
+			?article schema:isPartOf <https://en.wikipedia.org/>;
+		}
+
+		# set variables 
+		OPTIONAL {
+			?person wdt:P21 ?gender.
+			?gender rdfs:label ?genderlabel FILTER (lang(?genderlabel) = "en").
+		}
+		OPTIONAL { ?person wdt:P18 ?pics. }
+		OPTIONAL {
+			?person wdt:P570 ?dod.
+			BIND(YEAR(?dod) AS ?yod)
+			MINUS {
+				?person wdt:P569 ?dod; # remove people born and died on the same day (why exist????)
+								p:P570/psv:P570/wikibase:timePrecision "9"^^xsd:integer.
+			}
+		}
+		BIND(YEAR(?dob) AS ?yob)
+
+		MINUS {
+			?person p:P569/psv:P569/wikibase:timePrecision "9"^^xsd:integer.
+		}
+		SERVICE wikibase:label {
+			bd:serviceParam wikibase:language "en".
+		}
+	}
+	GROUP BY ?person ?personLabel ?personDescription ?dod ?gender ?genderLabel ?dob ?image ?yob ?yod ?article
+	LIMIT 3
+`
 
 function getPeople(date, elem) {
 	let query = `
@@ -198,7 +243,6 @@ function getPeople(date, elem) {
 
 const start = localStorage.getItem("date");
 
-getPeople(start, scrollTree);
 
 function createCard(values) {
 	var card = document.createElement("card");
@@ -216,6 +260,7 @@ function createCard(values) {
 
 	var img = document.createElement("img");
 	img.classList.add("person-image")
+	img.loading = "lazy";
 	img.src = values.image;
 	card.appendChild(img);
 
@@ -248,3 +293,94 @@ function createCard(values) {
 rootMarker.onclick = function returnToRoot() {
 	console.log("returning")
 }
+getPeople(start, scrollTree);
+
+
+backBtn.onclick = function() {
+	window.location.href = "./"
+}
+
+function searchDeath() {
+	let query = `
+		SELECT ?person ?personLabel ?personDescription ?dod ?gender ?genderLabel ?dob ?yod ?yob (SAMPLE(?pics) AS ?image) ?article
+		WHERE {
+			VALUES ?dob {"${date}"^^xsd:dateTime}
+			?person wdt:P31 wd:Q5; # is human
+							wdt:P569 ?dob. # date of birth matches
+			OPTIONAL {
+				?person ^schema:about ?article .
+				?article schema:isPartOf <https://en.wikipedia.org/>;
+			}
+
+			# set variables 
+			OPTIONAL {
+				?person wdt:P21 ?gender.
+				?gender rdfs:label ?genderlabel FILTER (lang(?genderlabel) = "en").
+			}
+			OPTIONAL { ?person wdt:P18 ?pics. }
+			OPTIONAL {
+				?person wdt:P570 ?dod.
+				BIND(YEAR(?dod) AS ?yod)
+				MINUS {
+					?person wdt:P569 ?dod; # remove people born and died on the same day (why exist????)
+									p:P570/psv:P570/wikibase:timePrecision "9"^^xsd:integer.
+				}
+			}
+			BIND(YEAR(?dob) AS ?yob)
+
+			MINUS {
+				?person p:P569/psv:P569/wikibase:timePrecision "9"^^xsd:integer.
+			}
+			SERVICE wikibase:label {
+				bd:serviceParam wikibase:language "en".
+			}
+		}
+		GROUP BY ?person ?personLabel ?personDescription ?dod ?gender ?genderLabel ?dob ?image ?yob ?yod ?article
+		LIMIT 3
+	`
+}
+search_limit = 10;
+
+function searchBirth() {
+	let query = `
+		SELECT ?person ?personLabel ?personDescription ?dod ?gender ?genderLabel ?dob ?yod ?yob (SAMPLE(?pics) AS ?image) ?article
+		WHERE {
+			VALUES ?dob {"${date}"^^xsd:dateTime}
+			?person wdt:P31 wd:Q5; # is human
+							wdt:P569 ?dob. # date of birth matches
+			OPTIONAL {
+				?person ^schema:about ?article .
+				?article schema:isPartOf <https://en.wikipedia.org/>;
+			}
+
+			# set variables 
+			OPTIONAL {
+				?person wdt:P21 ?gender.
+				?gender rdfs:label ?genderlabel FILTER (lang(?genderlabel) = "en").
+			}
+			OPTIONAL { ?person wdt:P18 ?pics. }
+			OPTIONAL {
+				?person wdt:P570 ?dod.
+				BIND(YEAR(?dod) AS ?yod)
+				MINUS {
+					?person wdt:P569 ?dod; # remove people born and died on the same day (why exist????)
+									p:P570/psv:P570/wikibase:timePrecision "9"^^xsd:integer.
+				}
+			}
+			BIND(YEAR(?dob) AS ?yob)
+
+			MINUS {
+				?person p:P569/psv:P569/wikibase:timePrecision "9"^^xsd:integer.
+			}
+			SERVICE wikibase:label {
+				bd:serviceParam wikibase:language "en".
+			}
+		}
+		GROUP BY ?person ?personLabel ?personDescription ?dod ?gender ?genderLabel ?dob ?image ?yob ?yod ?article
+		LIMIT 3
+	`
+}
+
+const direction = localStorage.getItem("direction") || "forward";
+
+console.log(direction);

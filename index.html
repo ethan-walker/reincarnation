@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Reincarnation</title>
+	
   <link href="./css/style.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
 	
@@ -17,12 +18,20 @@
 	<header class="main-header">Reincarnation</header>
 	<main class="search-body">
 		<div class="search-header">
-			<input type="text" class="search-input" placeholder="Enter name...">
-			<select name="" id="">
-				<option value="">Forward</option>
-				<option value="">Backward</option>
-			</select>
-			<button class="search-button"><i class="uil uil-search"></i></button>
+			<div class="search-bar">
+				<i class="uil uil-search"></i>
+				<input type="text" class="search-input" placeholder="Search by name">
+				<div class="input-toggle">
+					<i class="uil uil-calender"></i>
+				</div>
+			</div>
+			<div class="select">
+				<button class="select-display">Forward</button>
+				<ul class="select-list">
+					<li>Forward</li>
+					<li>Backward</li>
+				</ul>
+			</div>
 		</div>
 		<ul class="result-list"></ul>
 	</main>

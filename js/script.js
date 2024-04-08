@@ -73,3 +73,22 @@ function weightedRandom(arr, weights) {
 function clamp(val, lo, hi) {
 	 return Math.min(Math.max(lo, val), hi);
 }
+
+document.querySelectorAll(".select").forEach(elem => {
+	elem.querySelector(".select-list > :first-child").classList.add("selected");
+	
+	elem.onclick = function (e) {
+		var select = e.currentTarget;
+		var item = e.target;
+		
+		const header = select.querySelector(".select-display");
+		select.classList.toggle("open");
+
+		if (item.tagName === "LI") {
+			header.textContent = item.textContent;
+			
+			select.querySelector("li.selected").classList.remove("selected");
+			item.classList.add("selected");
+		}
+	}
+})

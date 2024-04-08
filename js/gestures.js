@@ -1,9 +1,11 @@
 var start_x, start_y, change_x, change_y
 
+var prev_x, prev_y, new_x, new_y
+
 var scale = 1,
 	centerX = scrollTree.offsetWidth / 2,
 	centerY = scrollTree.offsetHeight / 2,
-	origin = {"x" : centerX, "y": centerY},
+	origin = {"x" : 0, "y": 0},
 	newOrigin = {},
 	translate = {"x" : 0, "y" : 0};
 
@@ -34,7 +36,6 @@ function dragMove(e) {
 	start_y = e.clientY;
 
 	scrollTree.style.transform = `translate(${translate.x}px, ${translate.y}px) scale(${scale})`;
-
 	isOffscreen();
 }
 
@@ -52,8 +53,9 @@ scrollView.onwheel = (e) => {
 
 	// Restrict scale
 	scale = Math.min(Math.max(0.25, scale), 4);
-
+	
 	scrollTree.style.transform = `translate(${translate.x}px, ${translate.y}px) scale(${scale})`;
+	isOffscreen();
 };
 
 scrollView.onmousemove = mousePos;
@@ -65,20 +67,20 @@ function mousePos(e) {
 	let x = e.clientX - rect.left;
 	let y = e.clientY - rect.top;
 
-	newOrigin.x = (x - translate.x + origin.x * (scale - 1));
-	newOrigin.y = (y - translate.y + origin.y * (scale - 1));
+	newOrigin.x = (x - translate.x + origin.x * (scale - 1))/scale;
+	newOrigin.y = (y - translate.y + origin.y * (scale - 1))/scale;
 
-	translate.x = translate.x - ((origin.x - newOrigin.x) * (scale - 1));
-	translate.y = translate.y - ((origin.y - newOrigin.y) * (scale - 1));
-
+	translate.x = translate.x + (origin.x - newOrigin.x) * (1 - scale);
+	translate.y = translate.y + (origin.y - newOrigin.y) * (1 - scale);
+	
 	origin.x = newOrigin.x;
 	origin.y = newOrigin.y;
 
-	scrollTree.style.transformOrigin = `${origin.x}px ${origin.y}px`;
+	scrollTree.style.transformOrigin = `${origin.x}px ${origin.y}px`
 	scrollTree.style.transform = `translate(${translate.x}px, ${translate.y}px) scale(${scale})`;
 
-	scrollTree.style.setProperty('--mouse-x', origin.x + "px");
-	scrollTree.style.setProperty('--mouse-y', origin.y + "px");
+	scrollTree.style.setProperty('--mouse-x', newOrigin.x + "px");
+	scrollTree.style.setProperty('--mouse-y', newOrigin.y + "px");
 
 }
 
