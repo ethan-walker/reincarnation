@@ -67,8 +67,8 @@ function mousePos(e) {
 	let x = e.clientX - rect.left;
 	let y = e.clientY - rect.top;
 
-	newOrigin.x = (x - translate.x + origin.x * (scale - 1))/scale;
-	newOrigin.y = (y - translate.y + origin.y * (scale - 1))/scale;
+	newOrigin.x = x/scale;
+	newOrigin.y = y/scale;
 
 	translate.x = translate.x + (origin.x - newOrigin.x) * (1 - scale);
 	translate.y = translate.y + (origin.y - newOrigin.y) * (1 - scale);
