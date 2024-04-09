@@ -3,12 +3,16 @@ const searchButton = document.querySelector(".search-button");
 const results = document.querySelector(".result-list");
 
 const inputToggle = document.querySelector(".input-toggle");
+const directionSelect = document.querySelector(".direction-select");
+
+directionSelect.addEventListener("click", e => {
+	var direction = directionSelect.querySelector(".select-display").textContent;
+	localStorage.setItem("direction", direction);
+})
 
 
 searchInput.onkeyup = function(e) {
 	if (e.key === "Enter") {
-		var direction = document.querySelector(".direction-select > .select-display").textContent;
-		localStorage.setItem("direction", direction);
 		if (inputToggle.style.getPropertyValue("--input-mode") === "date") {
 			const dateList = [
 				//Non-Leap, Leap
@@ -88,6 +92,7 @@ function formatResults(data) {
 		entry.onclick = nameFunction;
 
 		entry.style.setProperty("--death", person.dod.value);
+		entry.style.setProperty("--birth", person.dob.value);
 		entry.style.setProperty("--delay", counter);
 		counter++;
 	}
@@ -125,7 +130,15 @@ function nameFunction(e) {
 	entry = e.currentTarget;
 	death = getComputedStyle(entry)
 		.getPropertyValue('--death');
-	localStorage.setItem("date", death);
+	birth = getComputedStyle(entry)
+	.getPropertyValue('--birth');
+	var direction = localStorage.getItem("direction");
+	if (direction === "forward") {
+		localStorage.setItem("date", death);
+	}
+	else {
+		localStorage.setItem("date", birth);
+	}
 	window.location.href = "./timeline.html"
 }
 
