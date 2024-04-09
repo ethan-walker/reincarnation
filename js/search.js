@@ -7,6 +7,8 @@ const inputToggle = document.querySelector(".input-toggle");
 
 searchInput.onkeyup = function(e) {
 	if (e.key === "Enter") {
+		var direction = document.querySelector(".direction-select > .select-display").textContent;
+		localStorage.setItem("direction", direction);
 		if (inputToggle.style.getPropertyValue("--input-mode") === "date") {
 			const dateList = [
 				//Non-Leap, Leap
@@ -35,7 +37,6 @@ searchInput.onkeyup = function(e) {
 				return console.log("Invalid Date");
 			}
 			localStorage.setItem("date", dateString);
-			localStorage.setItem("direction", "backward");
 			window.location.href = "./timeline.html";
 		}
 		else {
@@ -91,6 +92,7 @@ function formatResults(data) {
 		counter++;
 	}
 }
+
 function searchName() {
 	queryWikidata(`
 	SELECT ?item ?itemLabel ?dob ?dod ?itemDescription (SAMPLE(?images) AS ?image) WHERE {
@@ -118,12 +120,12 @@ function searchName() {
 `)
 	.then(data => formatResults(data));
 }
+
 function nameFunction(e) {
 	entry = e.currentTarget;
 	death = getComputedStyle(entry)
 		.getPropertyValue('--death');
 	localStorage.setItem("date", death);
-	localStorage.setItem("direction", "forward");
 	window.location.href = "./timeline.html"
 }
 

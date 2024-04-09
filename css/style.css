@@ -118,6 +118,12 @@ SELECT
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.scroll-bg {
+	position: absolute;
+	z-index: -1;
+	background-color: #f4f3f4;
+}
+
 /*
 	=== 🔍 SEARCH PAGE ===
 */
@@ -227,7 +233,6 @@ SELECT
 	width: 100vw;
 	height: 100vh;
 	overflow: hidden;
-	background-color: #f4f3f4;
 }
 .scroll-tree {
 	padding: 5rem;

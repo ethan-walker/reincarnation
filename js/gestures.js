@@ -7,7 +7,8 @@ var scale = 1,
 	centerY = scrollTree.offsetHeight / 2,
 	origin = {"x" : 0, "y": 0},
 	newOrigin = {},
-	translate = {"x" : 0, "y" : 0};
+	translate = {"x" : 0, "y" : 0},
+	bgTranslate = {"x" : 0, "y" : 0};
 
 
 scrollView.onmousedown = dragStart;
@@ -36,6 +37,12 @@ function dragMove(e) {
 	start_y = e.clientY;
 
 	scrollTree.style.transform = `translate(${translate.x}px, ${translate.y}px) scale(${scale})`;
+
+	// bgPattern.setAttribute("x", translate.x);
+	// bgPattern.setAttribute("y", translate.y);
+	// bgPattern.setAttribute("patternTransform", `translate(${bgTranslate.x}, ${bgTranslate.y}) scale(${scale})`);
+
+	
 	isOffscreen();
 }
 
@@ -55,6 +62,12 @@ scrollView.onwheel = (e) => {
 	scale = Math.min(Math.max(0.25, scale), 4);
 	
 	scrollTree.style.transform = `translate(${translate.x}px, ${translate.y}px) scale(${scale})`;
+
+	// bgPattern.setAttribute("x", translate.x);
+	// bgPattern.setAttribute("y", translate.y);
+	
+	// bgPattern.setAttribute("patternTransform", `translate(${bgTranslate.x}, ${bgTranslate.y}) scale(${scale})`);
+	
 	isOffscreen();
 };
 
@@ -72,11 +85,14 @@ function mousePos(e) {
 
 	translate.x = translate.x + (origin.x - newOrigin.x) * (1 - scale);
 	translate.y = translate.y + (origin.y - newOrigin.y) * (1 - scale);
-	
+
 	origin.x = newOrigin.x;
 	origin.y = newOrigin.y;
 
 	scrollTree.style.transformOrigin = `${origin.x}px ${origin.y}px`
+
+	bgTranslate.x = 40 * scale;
+	
 	scrollTree.style.transform = `translate(${translate.x}px, ${translate.y}px) scale(${scale})`;
 
 	scrollTree.style.setProperty('--mouse-x', newOrigin.x + "px");
