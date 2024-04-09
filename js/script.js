@@ -76,6 +76,7 @@ function clamp(val, lo, hi) {
 
 document.querySelectorAll(".select").forEach(elem => {
 	elem.querySelector(".select-list > :first-child").classList.add("selected");
+	elem.querySelector(".select-display").textContent = elem.querySelector(".select-list > :first-child").textContent;
 	
 	elem.onclick = function (e) {
 		var select = e.currentTarget;

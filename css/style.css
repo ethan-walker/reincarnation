@@ -52,6 +52,7 @@ SELECT
 .select {
 	position: relative;
 	width: max-content;
+	flex-shrink: 0;
 }
 .select-display {
 	display: grid;
@@ -86,7 +87,7 @@ SELECT
 	margin-top: .2em;
 	border: 1px solid rgb(0 0 0 / .2);
 	border-radius: 5px;
-	width: 100%;
+	width: max-content;
 	padding-block: .2em;
 }
 .select-list > li {
