@@ -8,6 +8,7 @@
 	--connector-select-colour: hotpink;
 	--border-1: #91a8c1;
 	--color-bg: #e5f2ff;
+	--color-mainText: #0a2540;
 
 	/* Variables */
 	--bezier: cubic-bezier(.49,.24,.25,1.7);
@@ -27,8 +28,9 @@ html {
   width: 100%;
 }
 body {
-	font-family: Figtree, Arial, Helvetica, sans-serif;
+	font-family: Satoshi, Arial, Helvetica, sans-serif;
 	overflow: hidden;
+	color: var(--color-mainText);
 }
 *, *::before, *::after {
 	margin: 0;
@@ -90,32 +92,36 @@ SELECT
 	width: max-content;
 	padding-block: .2em;
 }
+
 .select-list > li {
 	padding-inline: .5em;
-}
-.select-list > li:hover {
 	cursor: pointer;
-	background-color: rgba(0 0 0 / .1);
-}
-.select-list > li.selected {
-	color: dodgerblue;
-	display: grid;
-	grid-template-columns: 1fr auto;
-	gap: .5em;
-	align-items: center;
-}
-.select-list > li.selected::after {
-	content: "\e9c2";
-	font-family: unicons-line;
-	font-style: normal;
-	font-weight: 400;
-	display: inline-block;
-	text-decoration: inherit;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+
+	&:hover {
+		background-color: rgba(0 0 0 / .1);
+	}
+
+	&.selected {
+		color: dodgerblue;
+		display: grid;
+		grid-template-columns: 1fr auto;
+		gap: .5em;
+		align-items: center;
+
+		&::after {
+			content: "\e9c2";
+			font-family: unicons-line;
+			font-style: normal;
+			font-weight: 400;
+			display: inline-block;
+			text-decoration: inherit;
+			font-variant: normal;
+			text-transform: none;
+			line-height: 1;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+		}
+	}
 }
 
 .scroll-bg {
@@ -157,16 +163,17 @@ SELECT
 	border: 1px solid rgb(0 0 0 / .2);
 	width: 100%;
 	transition: box-shadow 100ms;
+
+	&:focus-within {
+		border-color: rgb(0 0 0 / .2);
+		box-shadow: 0 3px 9px -2px rgba(0 0 0 / .3);
+	}
 }
 .search-bar > input {
 	background-color: transparent;
 	border: none;
 	outline: none;
 	width: 100%;
-}
-.search-bar:focus-within {
-	border-color: rgb(0 0 0 / .2);
-	box-shadow: 0 3px 9px -2px rgba(0 0 0 / .3);
 }
 .input-toggle {
 	height: 100%;
@@ -186,7 +193,7 @@ SELECT
 	width: clamp(
 		0px,
 		40rem,
-		calc(100vw - 2rem)
+		100vw - 2rem
 	);
 	margin-inline: auto;
 }
@@ -195,21 +202,23 @@ SELECT
 */
 .result-list {
 	display: grid;
-	gap: .5em;
 	list-style-type: none;
 }
 .result {
 	display: grid;
 	gap: .5em;
 	grid-template-columns: 3rem 1fr;
+	height: 4rem;
 	cursor: pointer;
 	user-select: none;
 	border-radius: 7px;
 	animation: pop-up 200ms var(--bezier) backwards;
 	animation-delay: calc(50ms * var(--delay));
-}
-.result:hover {
-	border: 1px solid #91a8c1;
+	padding: .5em;
+
+	&:hover {
+		background-color: rgb(0 0 0 / .1);
+	}
 }
 .result-name {
 	font-weight: bold;
@@ -218,7 +227,7 @@ SELECT
 	font-style: italic;
 }
 .result-image {
-	border-radius: 50vh;
+	border-radius: 5px;
 	aspect-ratio: 1;
 	object-fit: cover;
 }
@@ -325,15 +334,12 @@ SELECT
 	gap: 1em;
 	width: var(--card-width);
 	/*background: linear-gradient(0deg, #f7feff, #fff 70%);*/
-	box-shadow: 0 3px 9px -2px rgba(0 0 0 / .2);
-	border: var(--connector-width) solid #e6e6e6;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.12);
+	border: var(--connector-width) solid #afaeb2;
 	animation: pop 100ms var(--bezier);
 }
 .person-alive {
 	border-color: limegreen;
-}
-.person-card.wikipedia .person-name {
-	color: dodgerblue;
 }
 .person-image {
 	aspect-ratio: 1;
@@ -347,6 +353,10 @@ SELECT
 }
 .person-name {
 	font-weight: bold;
+
+	.wikipedia & {
+		color: dodgerblue;
+	}
 }
 .person-description {
 	font-style: italic;
@@ -457,5 +467,47 @@ SELECT
 	from {
 		translate: 0 10px;
 		opacity: 0;
+	}
+}
+
+/* Screen cover thing */
+.layer {
+	width: 100dvw;
+	height: 100dvh;
+	position: fixed;
+	z-index: 9999;
+	background-color: white;
+}
+.layer:not(.visible) {
+	opacity: 0;
+	user-select: none;
+	z-index: -1;
+}
+.text-wrapper {
+	width: min(30rem, 100vw - 4rem);
+	margin-inline: auto;
+}
+.layer-header {
+	padding-inline: 1rem;
+	border-bottom: 1px solid rgb(0 0 0 / .2);
+	height: 10vh;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-block: .5rem;
+	margin-bottom: 1rem;
+}
+.layer-close {
+	aspect-ratio: 1;
+	height: 2rem;
+	border-radius: 50vh;
+	background-color: transparent;
+	border: 1px solid rgb(0 0 0 / .2);
+	color: rgb(0 0 0 / .5);
+	cursor: pointer;
+
+	&:hover {
+		border-color: #e52e2e;
+		color: #e52e2e;
 	}
 }

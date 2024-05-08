@@ -93,3 +93,11 @@ document.querySelectorAll(".select").forEach(elem => {
 		}
 	}
 })
+
+document.querySelectorAll(".layer-close").forEach(item => {
+	item.onclick = function(e) {
+		var elem = e.currentTarget;
+
+		elem.parentElement.parentElement.classList.remove("visible");
+	}
+})
